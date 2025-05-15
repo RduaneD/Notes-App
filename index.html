@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="components/note-header.js" defer></script>
+    <script src="components/note-form.js" defer></script>
+    <script src="components/note-item.js" defer></script>
+    <script src="components/note-list.js" defer></script>
+    <script src="components/note-archive.js" defer></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <note-header>
+        <span slot="sidebar-title">EverThought: Notes App untuk Segala Ide</span>
+    </note-header>
+
+    <main>
+        <note-form></note-form>
+
+        <section>
+            <h2>Catatan Aktif</h2>
+            <note-list></note-list>
+        </section>
+
+        <section>
+            <h2>Arsip</h2>
+            <note-archive></note-archive>
+        </section>
+    </main>
+</body>
+</html>
