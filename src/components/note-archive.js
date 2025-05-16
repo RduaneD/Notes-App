@@ -2,14 +2,24 @@ class NoteArchive extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.archivedNotes = [];
+    }
+
+    connectedCallback() {
         this.render();
+        this.renderArchivedNotes();
+    }
+
+    setNotes(notes) {
+        this.archivedNotes = notes;
+        this.renderArchivedNotes();
     }
 
     render() {
         this.shadowRoot.innerHTML = `
             <style>
                 .archive-container {
-                    background: white; /* Default light mode */
+                    background: white;
                     padding: 16px;
                     border-radius: var(--border-radius, 8px);
                     margin-top: 20px;
@@ -19,9 +29,8 @@ class NoteArchive extends HTMLElement {
                     transition: background 0.3s ease, color 0.3s ease;
                 }
 
-                /* Dark Mode */
                 :host-context(body.dark-mode) .archive-container {
-                    background: #2E2E2E; /* Sesuai grid-container */
+                    background: #2E2E2E;
                 }
 
                 h2 {
@@ -29,6 +38,7 @@ class NoteArchive extends HTMLElement {
                     font-size: 1.2em;
                     color: var(--primary-color, #333);
                 }
+
                 .archive-note {
                     background: var(--background-color, white);
                     color: var(--text-color, black);
@@ -50,6 +60,7 @@ class NoteArchive extends HTMLElement {
                     overflow: hidden;
                     text-overflow: ellipsis;
                 }
+
                 .archive-note p {
                     font-size: 0.9em;
                     overflow: hidden;
@@ -66,6 +77,7 @@ class NoteArchive extends HTMLElement {
                     border-top: 1px solid rgba(0, 0, 0, 0.1);
                     gap: 10px;
                 }
+
                 .actions button {
                     background: transparent;
                     border: none;
@@ -74,6 +86,7 @@ class NoteArchive extends HTMLElement {
                     color: var(--text-color);
                     transition: transform 0.2s;
                 }
+
                 .actions button:hover {
                     transform: scale(1.2);
                 }
@@ -83,18 +96,20 @@ class NoteArchive extends HTMLElement {
                 <div id="archive-list"></div>
             </div>
         `;
-
-        this.renderArchivedNotes();
     }
 
     renderArchivedNotes() {
         const archiveList = this.shadowRoot.querySelector("#archive-list");
+        if (!archiveList) return;
+
         archiveList.innerHTML = "";
 
-        let archivedNotes = JSON.parse(localStorage.getItem('notesData')) || [];
-        archivedNotes = archivedNotes.filter(note => note.archived);
+        if (this.archivedNotes.length === 0) {
+            archiveList.innerHTML = `<p>Tidak ada catatan arsip.</p>`;
+            return;
+        }
 
-        archivedNotes.forEach((note, index) => {
+        this.archivedNotes.forEach(note => {
             const noteElement = document.createElement("div");
             noteElement.classList.add("archive-note");
             noteElement.innerHTML = `
@@ -106,16 +121,17 @@ class NoteArchive extends HTMLElement {
                 </div>
             `;
 
-            noteElement.querySelector(".open-popup").addEventListener("click", () => {
+            noteElement.querySelector(".open-popup")?.addEventListener("click", () => {
                 alert(`Melihat catatan: ${note.title}\n\n${note.body}`);
             });
 
-            noteElement.querySelector(".restore").addEventListener("click", () => {
+            noteElement.querySelector(".restore")?.addEventListener("click", () => {
                 if (confirm("Kembalikan catatan ini ke daftar aktif?")) {
-                    archivedNotes[index].archived = false;
-                    localStorage.setItem("notesData", JSON.stringify(archivedNotes));
-                    this.renderArchivedNotes();
-                    document.dispatchEvent(new Event("refresh-notes"));
+                    this.dispatchEvent(new CustomEvent("restore-note", {
+                        bubbles: true,
+                        composed: true,
+                        detail: { id: note.id }
+                    }));
                 }
             });
 

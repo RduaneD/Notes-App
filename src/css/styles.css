@@ -1,0 +1,198 @@
+/* Global Variables */
+:root {
+    --primary-color: #4D869C;
+    --secondary-color: #7AB2B2;
+    --background-color: #EEF7FF;
+    --text-color: #333;
+    --light-text: #CDE8E5;
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --primary-color: #2E3A59;
+    --secondary-color: #445069;
+    --background-color: #1E1E1E;
+    --text-color: #F5F5F5;
+    --light-text: #A0A0A0;
+    --box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Scrollbar Styling */
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 8px;
+}
+
+/* Header */
+note-header {
+    width: 100%;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 16px;
+    box-shadow: var(--box-shadow);
+    transition: background-color var(--transition-speed);
+}
+
+/* Main Content */
+main {
+    margin-top: 100px;
+    width: 90%;
+    max-width: 800px;
+}
+
+/* Section Headings */
+main section h2 {
+    margin-bottom: 12px;
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 4px;
+    color: var(--primary-color);
+}
+
+/* Form */
+note-form {
+    width: 100%;
+    display: block;
+    margin-bottom: 24px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+}
+
+textarea {
+    min-height: 100px;
+}
+
+button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+button:hover {
+    background-color: var(--primary-color);
+}
+
+/* Notes List */
+note-list,
+note-archive {
+    display: block;
+    width: 100%;
+}
+
+/* Note Item Grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+/* Note Item Box */
+note-item {
+    display: block;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    padding: 16px;
+    box-shadow: var(--box-shadow);
+    transition: background-color var(--transition-speed), color var(--transition-speed), border var(--transition-speed);
+}
+
+/* Floating Add Button */
+.add-note-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--box-shadow);
+    border: none;
+    font-size: 1.5rem;
+    transition: background-color var(--transition-speed);
+}
+
+.add-note-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Loading Indicator */
+#loading {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    z-index: 2000;
+    font-weight: bold;
+    display: none;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode input,
+body.dark-mode textarea {
+    background-color: #2A2A2A;
+    color: white;
+    border: 1px solid #555;
+}
+
+body.dark-mode button {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+body.dark-mode button:hover {
+    background-color: var(--primary-color);
+}
+
+body.dark-mode note-item {
+    background-color: #2A2A2A;
+    color: var(--text-color);
+    border: 1px solid #555;
+}
